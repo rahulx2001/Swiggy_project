@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-import os
+import io
 
 # Set page configuration
 st.set_page_config(
@@ -18,26 +18,36 @@ st.title("Swiggy Restaurant Data Analysis")
 st.markdown(" Created with Streamlit by [Rahul](https://www.linkedin.com/in/rahulx2001/)")
 st.markdown("This application analyzes restaurant data from Swiggy to uncover insights about ratings, prices, popular food types, and more.")
 
-# Load data function with better error handling
+import pandas as pd
+import requests
+import streamlit as st
+
 def load_data():
     try:
-        # Check if file exists
-        file_path = "C:/Users/LENOVO/Desktop/zomato/swiggy.csv"
-        if not os.path.exists(file_path):
-            st.error(f"File not found: {file_path}")
-            st.info(f"Current working directory: {os.getcwd()}")
+        # Google Drive direct download link
+        url = "https://drive.google.com/file/d/1mTxUtsSXthyz47mm--zwoQh2Ng-G9mc-/view?usp=sharing"
+        
+        # Request file from Google Drive
+        response = requests.get(url)
+        if response.status_code != 200:
+            st.error(f"Failed to download file. Status code: {response.status_code}")
             return None
         
-        # Try to load the data
-        df = pd.read_csv(file_path)
+        # Read CSV into DataFrame using io.StringIO
+        csv_data = io.StringIO(response.text)
+        df = pd.read_csv(csv_data)
+        
+        # Check if DataFrame is empty
         if df.empty:
             st.error("The CSV file is empty.")
             return None
-        return df
         
+        return df
+
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
         return None
+
 
 # Load the data first
 df = load_data()
