@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import io
+import os
 
 # Set page configurationimport streamlit as st
 import pandas as pd
@@ -13,7 +14,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import io
-
+import os
 # Set page configuration
 st.set_page_config(
     page_title="Swiggy Restaurant Analysis",
